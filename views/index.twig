@@ -1,0 +1,45 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include('components/home/carousel.twig') %}
+
+        <div class="row mt-5" c>
+            <div class="col-md-12 mb-3">
+                <h2 class="font-weight-bold">{{ __('home.new_arrivals') }}</h2>
+            </div>
+            {% for item in new %}
+                <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-3">
+                    <a href="/product/{{ item.StockItemID }}" class="product-card h-100 border rounded">
+                        <div class="product-card-img p-3">
+                            <img class="w-100" src="/assets/img/products/{{ item.getImages.first().ImagePath }}" alt="">
+                        </div>
+                        <div class="mt-auto p-3">
+                            <h6 class="product-card-title font-weight-normal">{{ item.StockItemName }}</h6>
+                            <p class="mb-0 font-weight-medium">
+                                {{ __('common.currency') }} {{ format_price_with_tax(item.RecommendedRetailPrice) }}
+                                <small class="text-muted">(+ 21% {{ __('common.vat') }})</small>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-5 py-4 bg-light">
+        <div class="container">
+            <div class="d-flex flex-row flex-wrap">
+                {% for category in categories %}
+                    <a href="/browse?category_id={{ category.StockGroupID }}"
+                       style="background: url('/assets/img/categories/{{ category.ImagePath }}') 50% 50% no-repeat;"
+                       class="category-thumb mt-2 ml-auto mr-auto border">
+                        <span class="bg-nerdygadgets rounded">{{ category.StockGroupName }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

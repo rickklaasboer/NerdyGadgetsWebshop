@@ -1,0 +1,72 @@
+<ul class="m-0 p-0 account-sidebar">
+    <li class="{{ url().is('/profile') ? 'active' : '' }}">
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person d-block mr-2"
+                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
+            </svg>
+            <a class="font-small" href="/profile">{{ __('auth.account.sidebar.overview') }}</a>
+        </div>
+    </li>
+    <li class="{{ url().is('/profile/wishlist') ? 'active' : '' }}">
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-card-list d-block mr-2"
+                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                <path fill-rule="evenodd"
+                      d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+                <circle cx="3.5" cy="5.5" r=".5"/>
+                <circle cx="3.5" cy="8" r=".5"/>
+                <circle cx="3.5" cy="10.5" r=".5"/>
+            </svg>
+            <a class="font-small" href="/profile/wishlist">{{ __('auth.account.sidebar.wishlist') }}</a>
+        </div>
+    </li>
+    <li class="{{ url().is('/profile/orders') ? 'active' : '' }}">
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-archive d-block mr-2"
+                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <a class="font-small" href="/profile/orders">{{ __('auth.account.sidebar.orders') }}</a>
+        </div>
+    </li>
+    <li class="{{ url().is('/profile/invoices') ? 'active' : '' }}">
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-wallet d-block mr-2" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z"/>
+            </svg>
+            <a class="font-small" href="/profile/invoices">{{ __('auth.account.sidebar.invoices') }}</a>
+        </div>
+    </li>
+    <li class="{{ url().is('/profile/settings') ? 'active' : '' }}">
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-sliders d-block mr-2" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+            </svg>
+            <a class="font-small" href="/profile/settings">{{ __('auth.account.sidebar.settings') }}</a>
+        </div>
+    </li>
+    <li>
+        <div class="d-flex flex-row align-items-center">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle d-block mr-2"
+                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path fill-rule="evenodd"
+                      d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+            </svg>
+            <a class="font-small" onclick="event.preventDefault();document.getElementById('logout').submit();"
+               href="#">{{ __('auth.account.sidebar.logout') }}</a>
+            <form id="logout" method="POST" action="/logout">
+                <input type="hidden" name="_hellothere" value="generalkenobi">
+            </form>
+        </div>
+    </li>
+</ul>

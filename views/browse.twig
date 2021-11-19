@@ -1,0 +1,234 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} {{ __('pages.browse.title') }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+                <div class="card filter-parent-card">
+                    <div class="card-header bg-white border-bottom-0">
+                        <a class="filter-toggle d-block" href="#" data-toggle="collapse"
+                           data-target="#collapse_category" aria-expanded="false">
+                            <span class="d-flex flex-row align-items-center justify-content-between">
+                                <span>{{ __('browse.filter.category') }}</span>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                    <div id="collapse_category" class="collapse show">
+                        <div class="card-body">
+                            <form id="category_filter" action="/browse">
+                                {{ include_existing_parameters(params_except(null, ['category_id']))|raw }}
+
+                                {% for category in categories %}
+                                    <div class="custom-control custom-checkbox">
+                                        <input
+                                                {% if get_parameter('category_id') is iterable and category.StockGroupID in get_parameter('category_id') %}
+                                                    checked
+                                                {% endif %}
+                                                type="checkbox" name="category_id[]"
+                                                value="{{ category.StockGroupID }}"
+                                                class="custom-control-input" id="{{ category.StockGroupID }}"
+                                                onchange="$('#category_filter').submit()"
+                                        >
+                                        <label class="custom-control-label"
+                                               for="{{ category.StockGroupID }}">{{ category.StockGroupName }}</label>
+                                    </div>
+
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card filter-child-card filter-parent-card">
+                    <div class="card-header bg-white border-bottom-0">
+                        <a class="filter-toggle d-block" href="#" data-toggle="collapse"
+                           data-target="#collapse_price_range" aria-expanded="false">
+                            <span class="d-flex flex-row align-items-center justify-content-between">
+                                <span>{{ __('browse.filter.price_range') }}</span>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                    <div id="collapse_price_range" class="collapse show">
+                        <div class="card-body">
+                            <form action="/browse">
+                                {{ include_existing_parameters(params_except(null, ['price_min', 'price_max']))|raw }}
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="price_min">Min</label>
+                                        <input value="{{ get_parameter('price_min') }}" name="price_min" id="price_min"
+                                               class="form-control"
+                                               placeholder="{{ __('common.currency') }}0" type="number">
+                                    </div>
+                                    <div class="form-group text-right col-md-6">
+                                        <label for="price_max">Max</label>
+                                        <input value="{{ get_parameter('price_max') }}" name="price_max" id="price_max"
+                                               class="form-control"
+                                               placeholder="{{ __('common.currency') }}9999" type="number">
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                        class="btn btn-primary form-control">{{ __('browse.filter.apply') }}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card filter-child-card">
+                    <div class="card-header bg-white border-bottom-0">
+                        <a class="filter-toggle d-block" href="#" data-toggle="collapse" data-target="#collapse_stock"
+                           aria-expanded="false">
+                            <span class="d-flex flex-row align-items-center justify-content-between">
+                                <span>{{ __('browse.filter.stock') }}</span>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                    <div id="collapse_stock" class="collapse show">
+                        <div class="card-body">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck66">
+                                <label class="custom-control-label"
+                                       for="customCheck66">{{ __('stock.quantity.many') }}</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck67">
+                                <label class="custom-control-label"
+                                       for="customCheck67">{{ __('stock.quantity.plenty') }}</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck68">
+                                <label class="custom-control-label"
+                                       for="customCheck68">{{ __('stock.quantity.limited') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                {% if count(stockItems) < 1 %}
+                    <h2>{{ __('browse.whoops') }}</h2>
+                    <p>{{ __('browse.no_products') }}</p>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="results">
+                                <p class="mb-0">{{ count }} {{ __('browse.results') }}</p>
+                            </div>
+                            <div class="sort ml-auto">
+                                <form id="sort_form" action="/browse">
+                                    {{ include_existing_parameters(params_except(null, ['sort']))|raw }}
+                                    <select class="form-control" onchange="$('#sort_form').submit()" name="sort"
+                                            id="sort">
+                                        <option
+                                                {{ option_is_active(get_parameter('sort'), 'alphabetic_asc') }}
+                                                value="alphabetic_asc">{{ __('browse.sort.alphabetic_asc') }}
+                                        </option>
+                                        <option
+                                                {{ option_is_active(get_parameter('sort'), 'alphabetic_desc') }}
+                                                value="alphabetic_desc">{{ __('browse.sort.alphabetic_desc') }}
+                                        </option>
+                                        <option
+                                                {{ option_is_active(get_parameter('sort'), 'price_asc') }}
+                                                value="price_asc">{{ __('browse.sort.price_asc') }}
+                                        </option>
+                                        <option
+                                                {{ option_is_active(get_parameter('sort'), 'price_desc') }}
+                                                value="price_desc">{{ __('browse.sort.price_desc') }}
+                                        </option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
+                    {% for item in stockItems %}
+                        <div class="col-12 mb-4">
+                            <div class="border rounded">
+                                <div class="row no-gutters">
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="product-card-img p-3 h-100">
+                                            <a href="/product/{{ item.StockItemID }}">
+                                                <img class="w-100 d-block"
+                                                     src="/assets/img/products/{{ item.getImages().first().ImagePath }}"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl6">
+                                        <div class="p-3 h-100">
+                                            <a class="product-card-title font-weight-bold d-block mb-3"
+                                               href="/product/{{ item.StockItemID }}">
+                                                {{ item.StockItemName }}
+                                            </a>
+                                            <p class="text-muted">{{ item.MarketingComments ? item.MarketingComments : item.SearchDetails }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="border-left p-3 h-100">
+                                            <p class="mb-3 font-weight-bold">
+                                                {{ __('common.currency') }} {{ format_price_with_tax(item.RecommendedRetailPrice) }}
+                                                <small
+                                                        class="text-muted"><br>(+ 21% {{ __('common.vat') }})</small>
+                                            </p>
+
+                                            <p class="mb-3 text-{{ get_stock_color(item.getStockItemHolding().QuantityOnHand) }} font-small">
+                                                    <span class="border border-{{ get_stock_color(item.getStockItemHolding().QuantityOnHand) }} p-1">
+                                                        {{ __(get_stock_string(item.getStockItemHolding().QuantityOnHand)) }}
+                                                    </span>
+                                            </p>
+
+                                            <div class="d-flex flex-row">
+                                                <form action="/cart" method="POST">
+                                                    <input type="hidden" name="product"
+                                                           value="{{ item.StockItemID }}">
+
+                                                    <button class="btn btn-primary mr-2" type="submit">
+                                                        +
+                                                        <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                                             class="bi bi-bag" fill="currentColor"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                  d="M8 1a2.5 2.5 0 0 0-2.5 2.5V4h5v-.5A2.5 2.5 0 0 0 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5H2z"></path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                                <button data-toggle="tooltip" data-placement="top"
+                                                        title="{{ __('browse.add_to_wishlist') }}"
+                                                        class="btn btn-outline-light text-dark">
+                                                    <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                                         class="bi bi-heart-fill" fill="currentColor"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-4"></div>
+
+                {% if count(stockItems) > 0 %}
+                    {{ paginator|raw }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

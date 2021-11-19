@@ -1,0 +1,17 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} {{ __('pages.account.title') }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                {% include('components/auth/profile-sidebar.twig') %}
+            </div>
+            <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                <h2 class="font-weight-bold">{{ __('auth.account.title') }}</h2>
+                <h4>{{ __('auth.account.welcome', {name: user.getFullName()}) }}</h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

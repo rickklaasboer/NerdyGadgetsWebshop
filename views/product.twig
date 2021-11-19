@@ -1,0 +1,143 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} {{ stockItem.StockItemName }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h4 class="font-weight-bold">{{ stockItem.StockItemName }}</h4>
+        <div class="row mt-5">
+            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                <div id="productCarousel" class="carousel slide border" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        {% for image in stockItem.getImages().toArray() %}
+                            <div class="carousel-item carousel-item-product {{ loop.first ? 'active' : '' }}">
+                                <img class="w-100 d-block"
+                                     src="/assets/img/products/{{ image.ImagePath }}"
+                                     alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon carousel-prev-icon-green" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon carousel-next-icon-green" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <hr>
+
+                <h5 class="font-weight-bold">{{ __('product.meta.description') }}</h5>
+                <p class="mb-0">
+                    {{ (stockItem.MarketingComments is not null) ? stockItem.MarketingComments :stockItem.SearchDetails }}
+                </p>
+
+                <h5 class="font-weight-bold mt-4">{{ __('product.meta.specifications') }}</h5>
+                <table class="table table-striped border">
+                    <tbody>
+                    {% for key, value in stockItem.CustomFields %}
+                        {% if value is iterable %}
+                            {% if count(value) > 0 %}
+                                <tr>
+                                    <td class="w-50">{{ prettify_custom_field(key) }}</td>
+                                    <td class="w-50">{{ value|join(', ') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td class="w-50">{{ prettify_custom_field(key) }}</td>
+                                <td class="w-50">{{ value }}</td>
+                            </tr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-sm-12 co-md-5 col-lg-5 col-xl-5 product-meta">
+                <h4 class="mb-3 font-weight-bold">
+                    {{ __('common.currency') }} {{ format_price_with_tax(stockItem.RecommendedRetailPrice) }} <br/>
+                    <small class="text-muted font-small"> {{ __('common.currency') }} {{ format_price_with_tax( stockItem.RecommendedRetailPrice * 1.2) }} {{ __('retailprice.sug') }}</small>
+                    <small class="text-muted font-small"><br>(+ 21% {{ __('common.vat') }})</small>
+                </h4>
+                <p class="mb-3 text-{{ get_stock_color(stockItem.getStockItemHolding().QuantityOnHand) }} font-small">
+                    <span class="border border-{{ get_stock_color(stockItem.getStockItemHolding().QuantityOnHand) }} p-1">
+                        {{ __(get_stock_string(stockItem.getStockItemHolding().QuantityOnHand)) }}
+                    </span>
+                </p>
+
+                <form action="/cart" method="POST">
+                    <input type="hidden" name="product" value="{{ stockItem.StockItemID }}">
+                    <div class="form-group row no-gutters">
+                        <div class="col-2 pr-1">
+                            <input type="number" name="amount" value="1" min="1" id="quantity"
+                                   class="form-control">
+                        </div>
+                        <div class="col-10">
+                            <button type="submit" class="btn btn-primary p-2 font-small w-100">
+                                <span class="d-flex flex-row align-items-center justify-content-center">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag d-block mr-2"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                         <path fill-rule="evenodd"
+                                               d="M8 1a2.5 2.5 0 0 0-2.5 2.5V4h5v-.5A2.5 2.5 0 0 0 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5H2z">
+
+                                         </path>
+                                     </svg>
+                                    {{ __('product.meta.add_to_cart') }}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-2"></div>
+                <div class="d-flex flex-row">
+                    <form class="w-100" action="/cart" method="POST">
+                        <input type="hidden" name="product"
+                               value="{{ stockItem.StockItemID }}">
+                        <button type="submit" class="btn btn-outline-primary w-100 font-small mr-1">
+                            <span class="d-flex flex-row align-items-center justify-content-center">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-play-fill d-block mr-2"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                                </svg>
+                                {{ __('product.meta.buy_now') }}
+                            </span>
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-outline-light text-dark w-100 font-small ml-1">
+                            <span class="d-flex flex-row align-items-center justify-content-center">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill d-block mr-2"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+                                </svg>
+                               {{ __('product.meta.add_to_wishlist') }}
+                            </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="font-weight-bold mt-5">{{ __('product.similar_products') }}</h5>
+        <div class="row flex-nowrap overflow-auto">
+            {% for item in relatedStockItems %}
+                <div class="col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 mb-2">
+                    <a href="/product/{{ item.StockItemID }}"
+                       class="product-card h-100 border rounded">
+                        <div class="product-card-img p-3">
+                            <img class="w-100" src="/assets/img/products/{{ item.getImages.First().ImagePath }}" alt="">
+                        </div>
+                        <div class="mt-auto p-3">
+                            <h6 class="product-card-title font-weight-normal">{{ item.StockItemName }}</h6>
+                            <p class="mb-0 font-weight-medium">
+                                {{ __('common.currency') }} {{ format_price_with_tax(item.RecommendedRetailPrice) }}
+                                <small class="text-muted">(+ 21% {{ __('common.vat') }})</small>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

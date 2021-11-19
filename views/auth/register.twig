@@ -1,0 +1,66 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} {{ __('pages.register.title') }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+
+
+                <div class="border rounded p-4">
+                    <h4 class="font-weight-bold mb-4">{{ __('auth.register.title') }}</h4>
+                    {% if errors is not empty %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul class="p-0 pl-3 mb-0">
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form action="/register" method="POST">
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label for="first_name">{{ __('auth.register.form.first_name') }}</label>
+                                <input class="form-control" type="text" id="first_name" name="first_name"
+                                       placeholder="{{ __('auth.register.form.first_name') }}" required="required">
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label for="last_name">{{ __('auth.register.form.last_name') }}</label>
+                                <input class="form-control" type="text" id="last_name" name="last_name"
+                                       placeholder="{{ __('auth.register.form.last_name') }}" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">{{ __('auth.register.form.email') }}</label>
+                            <input class="form-control" type="email" id="email" name="email"
+                                   placeholder="{{ __('auth.register.form.email') }}" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">{{ __('auth.register.form.password') }}</label>
+                            <input class="form-control" type="password" id="password" name="password"
+                                   required="required"
+                                   placeholder="{{ __('auth.register.form.password') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirm">{{ __('auth.register.form.password_confirm') }}</label>
+                            <input class="form-control" type="password" id="password_confirm" name="password_confirm"
+                                   required="required"
+                                   placeholder="{{ __('auth.register.form.password_confirm') }}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary bg-nerdygadgets form-control"
+                                    type="submit">{{ __('auth.register.form.submit') }}</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center mt-3">
+                    <p>{{ __('auth.register.already_registered') }} <a href="/login">{{ __('auth.register.sign_in') }}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
