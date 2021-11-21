@@ -6,14 +6,12 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
-class TwigServiceProvider implements Provider
+class TwigServiceProvider extends ServiceProvider
 {
     /**
      * Register a service
-     *
-     * @return Environment
      */
-    public function register(): Environment
+    public function register()
     {
         // Create Twig loader
         $loader = new FilesystemLoader(BASE_PATH . './views/');
@@ -30,8 +28,7 @@ class TwigServiceProvider implements Provider
             $twig->addFunction($fn);
         }
 
-        // Finally, return our Twig instance
-        return $twig;
+        $this->container->set(Environment::class, $twig);
     }
 
     /**

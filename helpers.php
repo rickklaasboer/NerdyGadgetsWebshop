@@ -1,6 +1,7 @@
 <?php
 
 use App\Auth\Auth;
+use App\Support\Config;
 use App\Support\Facades\Facade;
 use App\Support\LoadEnvironmentVariables;
 use App\Support\Url;
@@ -414,6 +415,23 @@ function auth()
 function url(): Url
 {
     return app()->make(Url::class);
+}
+
+/**
+ * Get value from config
+ *
+ * @param null $key
+ * @return mixed|Config
+ * @throws \Psr\Container\ContainerExceptionInterface
+ * @throws \Psr\Container\NotFoundExceptionInterface
+ */
+function config($key = null, $fallback = null): mixed
+{
+    if (is_null($key)) {
+        return app(Config::class);
+    }
+
+    return app(Config::class)->get($key, $fallback);
 }
 
 /**

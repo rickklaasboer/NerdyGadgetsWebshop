@@ -5,12 +5,13 @@ use DI\ContainerBuilder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-//Create the PHP-DI container and bind definitions
-$builder = new ContainerBuilder();
-$builder->addDefinitions(__DIR__ . '/../config/app.php');
-
 // Build the container
-$container = $builder->build();
+$container = (new ContainerBuilder())->build();
+
+// Register all providers
+foreach ((require BASE_PATH . '/config/app.php')['providers'] as $provider) {
+    (new $provider($container))->register();
+}
 
 // Bind exception handler
 $container->make(App\Exceptions\Handler::class);

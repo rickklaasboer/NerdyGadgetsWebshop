@@ -2,26 +2,27 @@
 
 namespace App\Providers;
 
+use App\Support\Config;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
-class DoctrineServiceProvider implements Provider
+class DoctrineServiceProvider extends ServiceProvider
 {
     /**
      * Register a service
      *
-     * @return EntityManager
      * @throws \Doctrine\ORM\ORMException
      */
-    public function register(): EntityManager
+    public function register()
     {
         $config = $this->getAnnotationMetadataConfiguration();
-        $params = $this->getConfig()['db'];
+        $em = EntityManager::create(
+            $this->config('doctrine.db'),
+            $config
+        );
 
-        $em = EntityManager::create($params, $config);
-
-        return $em;
+        $this->container->set(EntityManager::class, $em);
     }
 
     /**
@@ -31,21 +32,20 @@ class DoctrineServiceProvider implements Provider
      */
     private function getAnnotationMetadataConfiguration(): Configuration
     {
-        $config = $this->getConfig();
-
         return Setup::createAnnotationMetadataConfiguration(
-            $config['options']['paths'],
-            $config['options']['isDevMode']
+            ...$this->config('doctrine.options')
         );
     }
 
     /**
-     * Get config file
+     * Get instance of config manager
      *
-     * @return mixed
+     * @param mixed ...$vars
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
-    private function getConfig(): mixed
+    private function config($key)
     {
-        return require(__DIR__ . '/../../config/doctrine.php');
+        return $this->container->get(Config::class)->get($key);
     }
 }

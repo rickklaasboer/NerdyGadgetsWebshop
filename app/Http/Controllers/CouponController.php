@@ -24,16 +24,15 @@ class CouponController extends Controller
      */
     public function apply(Request $request, EntityManager $em)
     {
-        $form = ['coupon' => $request->get('coupon')];
+        $form = \App\Util\Request::from($request)->only('coupon');
 
         $validator = new Validator($form, [
             'coupon' => [new Required(), new Min(1), new Exists(Coupon::class, 'code')],
         ]);
 
         if ($validator->fails()) {
-            $request->getSession()->getFlashBag()->add('errors', $validator->messages());
-
-            return response()->redirect(url()->prev());
+            return response()->flash('errors', $validator->messages())
+                ->redirect(url()->prev());
         }
 
         /** @var Coupon $coupon */
@@ -46,12 +45,11 @@ class CouponController extends Controller
             ->getResult()[0];
 
         if ($coupon->getEndDate() < Carbon::now()) {
-            $request->getSession()->getFlashBag()->add('errors', ['Coupon has expired']);
-            return response()->redirect(url()->prev());
+            return response()->flash('errors', ['Coupon has expired'])
+                ->redirect(url()->prev());
         }
 
-        $request->getSession()
-            ->set('discount', $coupon->getDiscount());
+        $request->getSession()->set('discount', $coupon->getDiscount());
 
         return response()->redirect(url()->prev());
     }

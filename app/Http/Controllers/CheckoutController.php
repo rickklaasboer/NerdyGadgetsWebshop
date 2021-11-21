@@ -45,7 +45,6 @@ class CheckoutController extends Controller
         return response()->twig('checkout/overview.twig', [
             'stockItems' => $stockItems,
             'cart' => $cart,
-            'errors' => $this->request->getSession()->getFlashBag()->get('errors')[0] ?? null,
         ]);
     }
 

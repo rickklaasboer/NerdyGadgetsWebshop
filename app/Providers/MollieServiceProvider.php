@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Mollie\Api\MollieApiClient;
 
-class MollieServiceProvider implements Provider
+class MollieServiceProvider extends ServiceProvider
 {
     /**
      * Register a service
@@ -14,6 +14,6 @@ class MollieServiceProvider implements Provider
         $mollie = new MollieApiClient();
         $mollie->setApiKey(env('MOLLIE_API_KEY'));
 
-        return $mollie;
+        $this->container->set(MollieApiClient::class, $mollie);
     }
 }

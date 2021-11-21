@@ -23,6 +23,11 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Get new arrivals
+     *
+     * @return int|mixed|string
+     */
     private function getNewArrivals()
     {
         $q = $this->manager->createQueryBuilder();

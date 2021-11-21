@@ -28,7 +28,6 @@ class CartController extends Controller
         return response()->twig('cart.twig', [
             'cart' => $this->cart,
             'stockItems' => $stockItems ?? [],
-            'errors' => $this->request->getSession()->getFlashBag()->get('errors')[0] ?? null,
         ]);
     }
 

@@ -4,15 +4,13 @@ namespace App\Providers;
 
 use App\Auth\Auth;
 
-class AuthServiceProvider implements Provider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
      * Register a service
-     *
-     * @return Auth
      */
-    public function register(): Auth
+    public function register()
     {
-        return new Auth();
+        $this->container->set(Auth::class, new Auth());
     }
 }
