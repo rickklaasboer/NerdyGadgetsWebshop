@@ -9,156 +9,140 @@ use JsonSerializable;
  * @Entity
  * @Table(name="stockitems")
  */
-class StockItem implements JsonSerializable
+class StockItem extends Entity implements JsonSerializable
 {
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
      */
-    private $StockItemID;
+    protected $StockItemID;
 
     /**
      * @Column(length=255)
      */
-    private $StockItemName;
+    protected $StockItemName;
 
     /**
      * @Column(type="integer")
      */
-    private $SupplierID;
+    protected $SupplierID;
 
     /**
      * @Column(type="integer")
      */
-    private $ColorID;
+    protected $ColorID;
 
     /**
      * @Column(type="integer")
      */
-    private $UnitPackageID;
+    protected $UnitPackageID;
 
     /**
      * @Column(type="integer")
      */
-    private $OuterPackageID;
+    protected $OuterPackageID;
 
     /**
      * @Column(length=50)
      */
-    private $Brand;
+    protected $Brand;
 
     /**
      * @Column(length=50)
      */
-    private $Size;
+    protected $Size;
 
     /**
      * @Column(type="integer")
      */
-    private $LeadTimeDays;
+    protected $LeadTimeDays;
 
     /**
      * @Column(type="integer")
      */
-    private $QuantityPerOuter;
+    protected $QuantityPerOuter;
 
     /**
      * @Column(type="boolean")
      */
-    private $IsChillerStock;
+    protected $IsChillerStock;
 
     /**
      * @Column(length=50)
      */
-    private $Barcode;
+    protected $Barcode;
 
     /**
      * @Column(type="decimal")
      */
-    private $TaxRate;
+    protected $TaxRate;
 
     /**
      * @Column(type="decimal")
      */
-    private $UnitPrice;
+    protected $UnitPrice;
 
     /**
      * @Column(type="decimal")
      */
-    private $RecommendedRetailPrice;
+    protected $RecommendedRetailPrice;
 
     /**
      * @Column(type="decimal")
      */
-    private $TypicalWeightPerUnit;
+    protected $TypicalWeightPerUnit;
 
     /**
      * @Column(type="text")
      */
-    private $MarketingComments;
+    protected $MarketingComments;
 
     /**
      * @Column(type="text")
      */
-    private $InternalComments;
+    protected $InternalComments;
 
     /**
      * @Column(type="text")
      */
-    private $CustomFields;
+    protected $CustomFields;
 
     /**
      * @Column(type="text")
      */
-    private $Tags;
+    protected $Tags;
 
     /**
      * @Column(type="text")
      */
-    private $SearchDetails;
+    protected $SearchDetails;
 
     /**
      * @Column(type="integer")
      */
-    private $LastEditedBy;
+    protected $LastEditedBy;
 
     /**
      * @Column(type="datetime")
      */
-    private $ValidFrom;
+    protected $ValidFrom;
 
     /**
      * @Column(type="datetime")
      */
-    private $ValidTo;
-
-    /**
-     * @return mixed
-     */
-    public function getStockItemHolding()
-    {
-        return $this->StockItemHolding;
-    }
-
-    /**
-     * @param mixed $StockItemHolding
-     */
-    public function setStockItemHolding($StockItemHolding): void
-    {
-        $this->StockItemHolding = $StockItemHolding;
-    }
+    protected $ValidTo;
 
     /**
      * @Column(length=255)
      */
-    private $Video;
+    protected $Video;
 
     /**
      * One StockItem has many StockItemImages
      * @OneToMany(targetEntity="StockItemImage", mappedBy="StockItem")
      */
-    private $Images;
+    protected $Images;
 
     /**
      * Many StockItems have Many StockGroups.
@@ -169,18 +153,25 @@ class StockItem implements JsonSerializable
      *     inverseJoinColumns={@JoinColumn(name="StockGroupID", referencedColumnName="StockGroupID")}
      *     )
      */
-    private $StockGroups;
+    protected $StockGroups;
 
     /**
      * One StockItem has one StockItemHolding
      * @OneToOne(targetEntity="StockItemHolding", mappedBy="StockItem")
      */
-    private $StockItemHolding;
+    protected $StockItemHolding;
+
+    /**
+     * One StockItem has many Ratings
+     * @OneToMany(targetEntity="Rating", mappedBy="StockItem")
+     */
+    protected $Ratings;
 
     public function __construct()
     {
         $this->Images = new ArrayCollection();
         $this->StockGroups = new ArrayCollection();
+        $this->Ratings = new ArrayCollection();
     }
 
     /**
@@ -613,6 +604,38 @@ class StockItem implements JsonSerializable
     public function setStockGroups($StockGroups)
     {
         $this->StockGroups = $StockGroups;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStockItemHolding()
+    {
+        return $this->StockItemHolding;
+    }
+
+    /**
+     * @param mixed $StockItemHolding
+     */
+    public function setStockItemHolding($StockItemHolding): void
+    {
+        $this->StockItemHolding = $StockItemHolding;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRatings()
+    {
+        return $this->Ratings;
+    }
+
+    /**
+     * @param mixed $Ratings
+     */
+    public function setRatings($Ratings): void
+    {
+        $this->Ratings = $Ratings;
     }
 
     /**

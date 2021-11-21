@@ -1,0 +1,73 @@
+<div class="d-flex flex-row justify-content-between align-items-end mt-5">
+    <h5 class="font-weight-bold mb-0">{{ __('product.rate_review') }}</h5>
+    <button
+            {% if not auth().isLoggedIn() %}
+                data-toggle="tooltip" data-placement="top"
+                title="{{ __('product.rate_loggedin') }}"
+            {% endif %}
+            class="btn btn-primary bg-nerdygadgets d-flex flex-row justify-content-between align-items-center {{ auth().isLoggedIn() ? '' : 'disabled' }}"
+            data-toggle="modal"
+            data-target="#newRatingModal"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-pencil-fill d-block mr-2"
+             viewBox="0 0 16 16">
+            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+        </svg>
+        {{ __('product.rating.new') }}
+    </button>
+</div>
+
+<hr class="mt-1">
+
+{% if stockItem.getRatings().toArray() is empty %}
+    <p>{{ __('product.rating.empty') }}</p>
+{% endif %}
+
+{% for rating in stockItem.getRatings().toArray() %}
+    <div class="card mb-3">
+        <div class="card-header d-flex align-items-center">
+            {{ __('rating.card.title', {name: rating.getUser().getFirstName()}) }} &mdash;&nbsp;
+
+            {% for i in 1..rating.Rating|upper %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-star-fill d-block mr-2" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                </svg>
+            {% endfor %}
+
+            {% if rating.Rating < 5 %}
+                {% for i in 1..(5 - rating.Rating)|upper %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-star d-block mr-2" viewBox="0 0 16 16">
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                    </svg>
+                {% endfor %}
+            {% endif %}
+
+            {{ __('rating.card.out_of') }}
+        </div>
+        <div class="card-body">
+            {{ rating.getRatingText() }}
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+            <small>
+                {{ __('rating.card.created', {date: now(rating.CreatedAt).format('d-m-Y \\@ H:i')}) }}
+                {% if rating.UpdatedAt is not null %}
+                    {{ __('rating.card.updated', {date: now().format('d-m-Y \\@ H:i')}) }}
+                {% endif %}
+            </small>
+            <a href="/rating/{{ rating.getID }}/report"
+               class="text-nerdygadets font-small d-flex justify-content-between align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                     class="bi bi-flag d-block mr-2"
+                     viewBox="0 0 16 16">
+                    <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21.294 21.294 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21.317 21.317 0 0 0 14 7.655V1.222z"/>
+                </svg>
+                {{ __('rating.card.report') }}
+            </a>
+        </div>
+    </div>
+{% endfor %}
+
+

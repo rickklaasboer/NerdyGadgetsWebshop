@@ -1,0 +1,19 @@
+<div class="row flex-nowrap overflow-auto">
+    {% for item in relatedStockItems %}
+        <div class="col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 mb-2">
+            <a href="/product/{{ item.StockItemID }}"
+               class="product-card h-100 border rounded">
+                <div class="product-card-img p-3">
+                    <img class="w-100" src="/assets/img/products/{{ item.getImages.First().ImagePath }}" alt="">
+                </div>
+                <div class="mt-auto p-3">
+                    <h6 class="product-card-title font-weight-normal">{{ item.StockItemName }}</h6>
+                    <p class="mb-0 font-weight-medium">
+                        {{ __('common.currency') }} {{ format_price_with_tax(item.RecommendedRetailPrice) }}
+                        <small class="text-muted">(+ 21% {{ __('common.vat') }})</small>
+                    </p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

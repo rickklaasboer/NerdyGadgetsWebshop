@@ -14,6 +14,8 @@ class Controller
     protected EntityManager $manager;
     protected Request $request;
 
+    protected $middleware = [];
+
     public function __construct(Environment $twig, Cart $cart, EntityManager $manager, Request $request)
     {
         $this->twig = $twig;

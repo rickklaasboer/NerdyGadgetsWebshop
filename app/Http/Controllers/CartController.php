@@ -71,8 +71,21 @@ class CartController extends Controller
         return response()->redirect(url()->prev());
     }
 
+    /**
+     * Api response for shopping cart menu
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function api()
     {
+
+        if ($this->cart->isEmpty()) {
+            return response()->json([
+                'items' => null,
+                'total_price' => 0,
+            ]);
+        }
+
         $stockItems = $this->manager->createQueryBuilder()
             ->select('s')
             ->from(StockItem::class, 's')

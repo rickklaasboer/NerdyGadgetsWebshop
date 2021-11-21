@@ -52,8 +52,7 @@
                                                 {{ __('common.currency') }} {{ format_price_with_tax(cart.itemCount(stockItem.StockItemID) * stockItem.RecommendedRetailPrice) }}
                                                 {% if cart.itemCount(stockItem.StockItemID) > 1 %}
                                                     <small class="text-muted">
-                                                        ({{ format_price_with_tax(stockItem.RecommendedRetailPrice) }} {{ __('common.short.per_piece') }}
-                                                        )
+                                                        ({{ format_price_with_tax(stockItem.RecommendedRetailPrice) }} {{ __('common.short.per_piece') }})
                                                     </small>
                                                 {% endif %}
 

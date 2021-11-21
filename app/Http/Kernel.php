@@ -10,6 +10,7 @@ use App\Http\Middleware\DetermineUserLanguage;
 use App\Http\Middleware\EnsureCorrectPathInfo;
 use App\Http\Middleware\SavePreviousUrl;
 use App\Http\Middleware\StartSession;
+use App\Http\Middleware\TransformRequest;
 use App\Support\Pipeline;
 use FastRoute\Dispatcher;
 use Psr\Container\ContainerInterface;
@@ -27,6 +28,7 @@ class Kernel
         EnsureCorrectPathInfo::class,
         StartSession::class,
         Authenticate::class,
+        TransformRequest::class,
         DetermineUserLanguage::class,
         SavePreviousUrl::class,
     ];

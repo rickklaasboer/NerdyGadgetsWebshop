@@ -1,0 +1,31 @@
+<div class="modal fade" id="newRatingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="/product/{{ stockItem.StockItemID }}/rating" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('product.rating.new') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% include('components/util/errors.twig') %}
+                    <div class="form-group">
+                        <label for="rating">{{ __('product.rating.form.rating') }}</label>
+                        <input class="form-control" type="number" name="rating" min="1" max="5" id="rating"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating_text">{{ __('product.rating.form.text') }}</label>
+                        <textarea class="form-control" name="rating_text" id="rating_text" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">{{ __('product.rating.dismiss') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('product.rating.save') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

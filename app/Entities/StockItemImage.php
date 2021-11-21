@@ -9,25 +9,25 @@ use JsonSerializable;
  * @Entity
  * @Table(name="stockitemimages")
  */
-class StockItemImage implements JsonSerializable
+class StockItemImage extends Entity implements JsonSerializable
 {
     /**
      * @Id
      * @Column(type="integer")
      */
-    private $StockItemID;
+    protected $StockItemID;
 
     /**
      * @Id
      * @Column(length=255)
      */
-    private $ImagePath;
+    protected $ImagePath;
 
     /**
      * @ManyToOne(targetEntity="StockItem", inversedBy="Images")
      * @JoinColumn(name="StockItemID", referencedColumnName="StockItemID")
      */
-    private $StockItem;
+    protected $StockItem;
 
     /**
      * @return mixed

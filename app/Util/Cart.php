@@ -357,6 +357,16 @@ class Cart
     }
 
     /**
+     * Determine if cart is empty
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return !$this->hasItems();
+    }
+
+    /**
      * Get price with tax
      *
      * @param $price

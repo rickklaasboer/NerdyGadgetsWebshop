@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Coupon;
-
 class HomeController extends Controller
 {
     /**

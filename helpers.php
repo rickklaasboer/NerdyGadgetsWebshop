@@ -7,6 +7,7 @@ use App\Support\Url;
 use App\Translation\Translation;
 use App\Util\Cart;
 use App\Util\Response;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -413,4 +414,45 @@ function auth()
 function url(): Url
 {
     return app()->make(Url::class);
+}
+
+/**
+ * Utility function for getting only certain functions out of request parameters
+ *
+ * @param Request $request
+ * @param array $keys
+ * @return array
+ */
+function only(Request $request, array $keys)
+{
+    $bag = [];
+
+    foreach ($keys as $key) {
+        $bag[$key] = $request->get($key);
+    }
+
+    return $bag;
+}
+
+/**
+ * Tap an instance of object, allows interacting with the object and returns the object with changes
+ *
+ * @param mixed $value
+ * @param callable $callback
+ * @return mixed
+ */
+function tap(mixed $value, Closure $callback)
+{
+    $callback($value);
+
+    return $value;
+}
+
+function now($date = null)
+{
+    if (is_null($date)) {
+        $date = Carbon::now();
+    }
+
+    return Carbon::make($date);
 }

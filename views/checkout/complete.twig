@@ -1,0 +1,38 @@
+{% extends 'templates/layout.twig' %}
+
+{% block title %} {{ __('pages.checkout.complete') }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div id="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="196" height="196" fill="currentColor"
+                             class="bi bi-cart-check text-nerdygadets d-block mb-4" viewBox="0 0 16 16">
+                            <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-weight-bold">{{ __('checkout.complete.title') }}</h3>
+                    <p class="text-center">
+                        {{ __('checkout.complete.subtitle', {order: order}) }} {{ __('checkout.complete.customer_service.1') }}
+                        <a href="#">{{ __('checkout.complete.customer_service.2') }}</a>.
+                    </p>
+
+                    <a href="/customer-service" class="btn btn-primary bg-nerdygadgets">
+                        <div class="d-flex flex-row align-items-center">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                 class="bi bi-chevron-left mr-2" fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                            {{ __('checkout.complete.back') }}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

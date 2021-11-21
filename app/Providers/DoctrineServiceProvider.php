@@ -19,7 +19,9 @@ class DoctrineServiceProvider implements Provider
         $config = $this->getAnnotationMetadataConfiguration();
         $params = $this->getConfig()['db'];
 
-        return EntityManager::create($params, $config);
+        $em = EntityManager::create($params, $config);
+
+        return $em;
     }
 
     /**

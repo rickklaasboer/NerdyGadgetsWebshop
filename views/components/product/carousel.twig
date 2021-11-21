@@ -1,0 +1,18 @@
+<div id="productCarousel" class="carousel slide border" data-ride="carousel">
+    <div class="carousel-inner">
+
+        {% for image in stockItem.getImages().toArray() %}
+            <div class="carousel-item carousel-item-product {{ loop.first ? 'active' : '' }}">
+                <img class="w-100 d-block"
+                     src="/assets/img/products/{{ image.ImagePath }}"
+                     alt="">
+            </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon carousel-prev-icon-green" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon carousel-next-icon-green" aria-hidden="true"></span>
+    </a>
+</div>

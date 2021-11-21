@@ -43,7 +43,10 @@ class Response
     public function twig(string $template, array $context = []): SymfonyResponse
     {
         $twig = app(Environment::class);
-        return $this->view($twig->render($template, $context));
+        return $this->view($twig->render($template, array_merge($context, [
+            // Attach error object to every twig response
+            'errors' => $this->request->getSession()->getFlashBag()->get('errors')[0] ?? null
+        ])));
     }
 
     /**
@@ -88,5 +91,19 @@ class Response
     public function redirect(string $url, int $status = 302, array $headers = []): RedirectResponse
     {
         return new RedirectResponse($url, $status, $headers);
+    }
+
+    /**
+     * Utility function for adding something to response flash bag
+     *
+     * @param $type
+     * @param $message
+     * @return $this
+     */
+    public function flash($type, $message)
+    {
+        $this->request->getSession()->getFlashBag()->add($type, $message);
+
+        return $this;
     }
 }

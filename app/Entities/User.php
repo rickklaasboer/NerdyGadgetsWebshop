@@ -2,64 +2,78 @@
 
 namespace App\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  * @Table(name="users")
  */
-class User
+class User extends Entity
 {
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @Column(length=255)
      */
-    private $first_name;
+    protected $first_name;
 
     /**
      * @Column(length=255)
      */
-    private $last_name;
+    protected $last_name;
 
     /**
      * @Column(length=255)
      */
-    private $full_name;
+    protected $full_name;
 
     /**
      * @Column(length=255)
      * @Unique
      */
-    private $email;
+    protected $email;
 
     /**
      * @Column(length=255)
      */
-    private $password;
+    protected $password;
 
     /**
      * @Column(length=255)
      */
-    private $remember_token;
+    protected $remember_token;
 
     /**
      * @Column(type="date")
      */
-    private $date_of_birth;
+    protected $date_of_birth;
 
     /**
      * @Column(type="datetime")
      */
-    private $created_at;
+    protected $created_at;
 
     /**
      * @Column(type="datetime")
      */
-    private $updated_at;
+    protected $updated_at;
+
+    /**
+     * One StockItem has many Ratings
+     * @OneToMany(targetEntity="Rating", mappedBy="User")
+     */
+    protected $Ratings;
+
+    public function __construct()
+    {
+        $this->Ratings = new ArrayCollection();
+    }
+
 
     /**
      * @return mixed
@@ -219,6 +233,22 @@ class User
     public function setFullName($full_name): void
     {
         $this->full_name = $full_name;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRatings()
+    {
+        return $this->Ratings;
+    }
+
+    /**
+     * @param ArrayCollection $Ratings
+     */
+    public function setRatings($Ratings): void
+    {
+        $this->Ratings = $Ratings;
     }
 
 

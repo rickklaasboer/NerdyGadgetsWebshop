@@ -108,6 +108,9 @@ class TwigServiceProvider implements Provider
             new TwigFunction('request', function () {
                 return request();
             }),
+            new TwigFunction('now', function (...$vars) {
+                return now(...$vars);
+            }),
         ];
     }
 }

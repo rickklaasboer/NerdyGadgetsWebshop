@@ -10,7 +10,7 @@ use JsonSerializable;
  * @Entity
  * @Table(name="stockgroups")
  */
-class StockGroup implements JsonSerializable
+class StockGroup extends Entity implements JsonSerializable
 {
     use ToJson;
     /**
@@ -18,32 +18,32 @@ class StockGroup implements JsonSerializable
      * @Column(type="integer")
      * @GeneratedValue
      */
-    private $StockGroupID;
+    protected $StockGroupID;
 
     /**
      * @Column(length=255)
      */
-    private $StockGroupName;
+    protected $StockGroupName;
 
     /**
      * @Column(type="integer")
      */
-    private $LastEditedBy;
+    protected $LastEditedBy;
 
     /**
      * @Column(type="datetime")
      */
-    private $ValidFrom;
+    protected $ValidFrom;
 
     /**
      * @Column(type="datetime")
      */
-    private $ValidTo;
+    protected $ValidTo;
 
     /**
      * @Column(length=255)
      */
-    private $ImagePath;
+    protected $ImagePath;
 
     /**
      * Many StockGroups have Many StockItems.
@@ -53,7 +53,7 @@ class StockGroup implements JsonSerializable
      *     inverseJoinColumns={@JoinColumn(name="StockItemID", referencedColumnName="StockItemID")}
      * )
      */
-    private $StockItems;
+    protected $StockItems;
 
     public function __construct()
     {

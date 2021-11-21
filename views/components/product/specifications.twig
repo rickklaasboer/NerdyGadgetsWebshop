@@ -1,0 +1,21 @@
+<table class="table table-striped border">
+    <tbody>
+    {% for key, value in stockItem.CustomFields %}
+        {% if value is iterable %}
+            {% if count(value) > 0 %}
+                <tr>
+                    <td class="w-50">{{ prettify_custom_field(key) }}</td>
+                    <td class="w-50">{{ value|join(', ') }}</td>
+                </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td class="w-50">{{ prettify_custom_field(key) }}</td>
+                <td class="w-50">{{ value }}</td>
+            </tr>
+        {% endif %}
+
+    {% endfor %}
+
+    </tbody>
+</table>

@@ -8,54 +8,54 @@ use JsonSerializable;
  * @Entity
  * @Table(name="stockitemholdings")
  */
-class StockItemHolding implements JsonSerializable
+class StockItemHolding extends Entity implements JsonSerializable
 {
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
      */
-    private $StockItemID;
+    protected $StockItemID;
 
     /**
      * @Column(type="bigint")
      */
-    private $QuantityOnHand;
+    protected $QuantityOnHand;
 
     /**
      * @Column(length="255")
      */
-    private $BinLocation;
+    protected $BinLocation;
 
     /**
      * @Column(type="bigint")
      */
-    private $LastStocktakeQuantity;
+    protected $LastStocktakeQuantity;
 
     /**
      * @Column(type="decimal")
      */
-    private $LastCostPrice;
+    protected $LastCostPrice;
 
     /**
      * @Column(type="integer")
      */
-    private $ReorderLevel;
+    protected $ReorderLevel;
 
     /**
      * @Column(type="bigint")
      */
-    private $TargetStockLevel;
+    protected $TargetStockLevel;
 
     /**
      * @Column(type="integer")
      */
-    private $LastEditedBy;
+    protected $LastEditedBy;
 
     /**
      * @Column(type="datetime")
      */
-    private $LastEditedWhen;
+    protected $LastEditedWhen;
 
     /**
      * @return mixed
@@ -78,7 +78,7 @@ class StockItemHolding implements JsonSerializable
      * @OneToOne(targetEntity="StockItem", mappedBy="StockItemHolding")
      * @JoinColumn(name="StockItemID", referencedColumnName="StockItemID")
      */
-    private $StockItem;
+    protected $StockItem;
 
     /**
      * @return mixed

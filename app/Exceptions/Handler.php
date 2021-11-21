@@ -27,13 +27,6 @@ class Handler
         register_shutdown_function([$this, 'handleShutdown']);
 
         $this->container = $container;
-
-        $this->register();
-    }
-
-    public function register()
-    {
-        // TODO: Log the exception
     }
 
     /**

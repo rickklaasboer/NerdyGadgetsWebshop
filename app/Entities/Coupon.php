@@ -9,7 +9,7 @@ use JsonSerializable;
  * @Entity
  * @Table(name="coupons")
  */
-class Coupon implements JsonSerializable
+class Coupon extends Entity implements JsonSerializable
 {
     use ToJson;
 
@@ -18,32 +18,32 @@ class Coupon implements JsonSerializable
      * @Column(type="integer")
      * @GeneratedValue
      */
-    private $id;
+    protected $id;
 
     /**
      * @Column(length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @Column(length=255)
      */
-    private $code;
+    protected $code;
 
     /**
      * @Column(type="integer")
      */
-    private $discount;
+    protected $discount;
 
     /**
      * @Column(type="datetime")
      */
-    private $created;
+    protected $created;
 
     /**
      * @Column(type="datetime")
      */
-    private $end_date;
+    protected $end_date;
 
     /**
      * @return mixed
