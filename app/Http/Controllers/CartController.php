@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\StockItem;
 use App\Util\Cart;
+use App\Util\Request;
 
 class CartController extends Controller
 {
@@ -34,11 +35,17 @@ class CartController extends Controller
     /**
      * Add something to cart
      */
-    public function add()
+    public function add(Request $request)
     {
+        ['product' => $product, 'amount' => $amount] = $request->only('product', 'amount');
+
+        if (!$this->cart->hasAmountInStock($product, abs($amount ?? 1))) {
+            return response()->flash('errors', [__('messages.cart.no_stock')])->redirect(url()->prev());
+        }
+
         $this->cart->add(
-            $this->request->get('product'),
-            abs($this->request->get('amount', 1))
+            $product,
+            abs($amount ?? 1)
         );
 
         return response()->redirect(url()->prev());
@@ -47,11 +54,17 @@ class CartController extends Controller
     /**
      * Modify something in cart
      */
-    public function modify()
+    public function modify(Request $request)
     {
+        ['product' => $product, 'amount' => $amount] = $request->only('product', 'amount');
+
+        if (!$this->cart->hasAmountInStock($product, abs($amount ?? 1))) {
+            return response()->flash('errors', [__('messages.cart.no_stock', ['amount' => $amount])])->redirect(url()->prev());
+        }
+
         $this->cart->modify(
-            $this->request->get('product'),
-            abs($this->request->get('amount', 1)),
+            $product,
+            abs($amount ?? 1),
             Cart::MODIFY_MODE_SET
         );
 
@@ -61,10 +74,10 @@ class CartController extends Controller
     /**
      * Remove something from cart
      */
-    public function remove()
+    public function remove(Request $request)
     {
         $this->cart->remove(
-            $this->request->get('product')
+            $request->product
         );
 
         return response()->redirect(url()->prev());

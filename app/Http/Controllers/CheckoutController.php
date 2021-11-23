@@ -58,7 +58,8 @@ class CheckoutController extends Controller
      */
     public function pay(Request $request, Cart $cart, MollieApiClient $mollie)
     {
-        $form = only($request, ['first_name', 'last_name', 'street_name', 'house_number', 'city', 'postal_code']);
+        $form = \App\Util\Request::from($request)
+            ->only('first_name', 'last_name', 'street_name', 'house_number', 'city', 'postal_code');
 
         $validator = new Validator($form, [
             'first_name' => [new Required(), new Min(1), new Max(255)],
@@ -70,9 +71,8 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $request->getSession()->getFlashBag()
-                ->add('errors', $validator->messages());
-            return response()->redirect(url()->prev());
+            return response()->flash('errors', $validator->messages())
+                ->redirect(url()->prev());
         }
 
         $payment = $mollie->payments->create([

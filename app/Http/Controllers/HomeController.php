@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 class HomeController extends Controller
 {
     /**
-     * Render the home page
+     * Render the homepage
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function index()
     {

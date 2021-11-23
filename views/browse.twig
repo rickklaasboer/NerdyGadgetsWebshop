@@ -116,10 +116,6 @@
                 </div>
             </div>
             <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
-                {% if count(stockItems) < 1 %}
-                    <h2>{{ __('browse.whoops') }}</h2>
-                    <p>{{ __('browse.no_products') }}</p>
-                {% endif %}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex flex-row align-items-center">
@@ -152,6 +148,12 @@
                             </div>
                         </div>
                         <hr class="mt-2">
+
+
+                        {% if count(stockItems) < 1 %}
+                            <h2>{{ __('browse.whoops') }}</h2>
+                            <p>{{ __('browse.no_products') }}</p>
+                        {% endif %}
                     </div>
                     {% for item in stockItems %}
                         <div class="col-12 mb-4">

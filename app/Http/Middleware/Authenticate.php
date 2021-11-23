@@ -29,13 +29,12 @@ class Authenticate
 
                 // Session has expired
                 if (!Carbon::now()->isBefore($validUntil)) {
+                    // If session has expired, remove user from session.
+                    $session->remove('user');
                     return $next($request);
                 }
 
-                /** @var EntityManager $em */
-                $em = app(EntityManager::class);
-
-                $user = $em->getRepository(User::class)->find($id);
+                $user = db()->getRepository(User::class)->find($id);
 
                 // Terminate when user could not be found
                 if (!$user) {

@@ -7,6 +7,7 @@
         {% if stockItems is not empty %}
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                    {% include('components/util/errors.twig') %}
                     <div class="card w-100 mb-3">
                         <div class="card-body">
                             <table class="table table-borderless table-responsive">
@@ -125,7 +126,6 @@
                     <div class="card mb-3">
                         {% if session().has('discount') %}
                             <div class="card-body">
-                                {% include('components/util/errors.twig') %}
                                 <p>{{ __('cart.coupon.applied', {percentage: session().get('discount')}) }}
                                 <form action="/cart/coupon" method="POST">
                                     {{ method_override('DELETE')|raw }}
@@ -134,7 +134,6 @@
                             </div>
                         {% else %}
                             <div class="card-body">
-                                {% include('components/util/errors.twig') %}
                                 <p>{{ __('cart.coupon') }}</p>
                                 <form action="/cart/coupon" method="POST">
                                     <div class="input-group w-100">

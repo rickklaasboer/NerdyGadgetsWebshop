@@ -2,6 +2,7 @@
 
 namespace App\Util;
 
+use App\Entities\StockItem;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use PDO;
@@ -195,11 +196,7 @@ class Cart
      */
     public function hasAmountInStock($productId, $amount = 1)
     {
-        $statement = $this->manager->query(self::PRODUCT_IN_STOCK_QUERY);
-        $statement->execute(array_wrap($productId));
-        $response = $statement->fetch();
-
-        return $response && $response['QuantityOnHand'] >= $amount;
+        return $this->manager->find(StockItem::class, $productId)?->getStockItemHolding()?->getQuantityOnHand() >= $amount;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Translation\Translation;
 use App\Util\Cart;
 use App\Util\Response;
 use Carbon\Carbon;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -432,6 +433,18 @@ function config($key = null, $fallback = null): mixed
     }
 
     return app(Config::class)->get($key, $fallback);
+}
+
+/**
+ * Shorthand function to create a db instance
+ *
+ * @return mixed|EntityManager
+ * @throws \Psr\Container\ContainerExceptionInterface
+ * @throws \Psr\Container\NotFoundExceptionInterface
+ */
+function db()
+{
+    return app(EntityManager::class);
 }
 
 /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Entities\User;
 use App\Http\Controllers\Controller;
+use App\Util\Request;
 use App\Util\Validation\Rules\Email;
 use App\Util\Validation\Rules\Equals;
 use App\Util\Validation\Rules\Max;
@@ -15,26 +16,35 @@ use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
+    /**
+     * View the register form
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function view()
     {
         if (auth()->isLoggedIn()) {
             return response()->redirect('/profile');
         }
 
-        return response()->twig('auth/register.twig', [
-            'errors' => $this->request->getSession()->getFlashBag()->get('errors')[0] ?? null,
-        ]);
+        return response()->twig('auth/register.twig');
     }
 
-    public function handle()
+    /**
+     * Handle incoming register request
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function handle(Request $request)
     {
-        $form = [
-            'first_name' => $this->request->get('first_name'),
-            'last_name' => $this->request->get('last_name'),
-            'email' => $this->request->get('email'),
-            'password' => $this->request->get('password'),
-            'password_confirm' => $this->request->get('password_confirm'),
-        ];
+        $form = $request->only('first_name', 'last_name', 'email', 'password', 'password_confirm');
 
         $validator = new Validator($form, [
             'first_name' => [new Required(), new Min(1), new Max(255)],
@@ -45,39 +55,23 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $this->request->getSession()
-                ->getFlashBag()
-                ->add('errors', $validator->messages());
-
-            return response()->redirect(url()->prev());
+            return response()->flash('errors', $validator->messages())
+                ->redirect(url()->prev());
         }
 
-        $form = $this->prepareForm($form);
-
         $user = new User();
-        $user->setFirstName($form['first_name']);
-        $user->setLastName($form['last_name']);
-        $user->setFullName("{$form['first_name']} {$form['last_name']}");
-        $user->setEmail($form['email']);
-        $user->setPassword($form['password']);
-        $user->setCreatedAt(Carbon::now());
+        $user->fill([
+            'FirstName' => $form['first_name'],
+            'LastName' => $form['last_name'],
+            'FullName' => "{$form['first_name']} {$form['last_name']}",
+            'Email' => $form['email'],
+            'Password' => password_hash($form['password'], PASSWORD_BCRYPT),
+            'CreatedAt' => Carbon::now(),
+        ]);
 
         $this->manager->persist($user);
         $this->manager->flush();
 
         return response()->redirect('/login');
-    }
-
-    /**
-     * Prepare form for insertion
-     *
-     * @param array $form
-     * @return array
-     */
-    private function prepareForm(array $form)
-    {
-        $form['password'] = password_hash($form['password'], PASSWORD_BCRYPT);
-
-        return $form;
     }
 }

@@ -22,6 +22,16 @@ class TransformRequest
             if (is_numeric($value)) {
                 $request->request->set($key, $value + 0);
             }
+
+            // Remove whitespaces from string
+            if (is_string($value)) {
+                $request->request->set($key, trim($value));
+            }
+
+            // If value is an empty string, replace it with null
+            if ($value === '') {
+                $request->request->set($key, null);
+            }
         }
 
         return $next($request);

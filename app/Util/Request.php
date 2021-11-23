@@ -46,6 +46,16 @@ class Request
     }
 
     /**
+     * Get session from request
+     *
+     * @return callable|\Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    public function session()
+    {
+        return $this->original->getSession();
+    }
+
+    /**
      * Utility function for getting only certain parameters out of request parameters
      *
      * @param array $keys
@@ -64,5 +74,16 @@ class Request
         }
 
         return $bag;
+    }
+
+    /**
+     * Default getter
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function __get(string $name)
+    {
+        return $this->original->get($name);
     }
 }

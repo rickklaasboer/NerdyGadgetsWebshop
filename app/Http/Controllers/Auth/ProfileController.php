@@ -37,6 +37,13 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * Wishlist page
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function wishlist()
     {
         return response()->twig('auth/wishlist.twig', [
