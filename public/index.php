@@ -9,13 +9,13 @@ use function FastRoute\simpleDispatcher;
 define("BASE_PATH", dirname(__DIR__));
 
 // Register composer's autoloader
-require BASE_PATH . './vendor/autoload.php';
+require BASE_PATH . '/vendor/autoload.php';
 
 // Run the application
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $dispatcher = simpleDispatcher(function (RouteCollector $router) {
-    require_once BASE_PATH . './routes/web.php';
+    require_once BASE_PATH . '/routes/web.php';
 });
 
 $kernel = $app->make(Kernel::class);

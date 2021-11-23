@@ -14,11 +14,11 @@ class TwigServiceProvider extends ServiceProvider
     public function register()
     {
         // Create Twig loader
-        $loader = new FilesystemLoader(BASE_PATH . './views/');
+        $loader = new FilesystemLoader(BASE_PATH . '/views/');
 
         // Create a new Twig instance
         $twig = new Environment($loader, [
-            'cache' => BASE_PATH . './cache/',
+            'cache' => BASE_PATH . '/cache/',
             'debug' => env('APP_ENV') === 'dev',
             'auto_reload' => env('APP_ENV') === 'dev',
         ]);

@@ -35,6 +35,11 @@ class CheckoutController extends Controller
      */
     public function overview(Request $request, EntityManager $em, Cart $cart)
     {
+        // Redirect if cart is empty
+        if ($cart->isEmpty()) {
+            return response()->redirect('/cart');
+        }
+
         $stockItems = $em->createQueryBuilder()
             ->select('s')
             ->from(StockItem::class, 's')
@@ -58,6 +63,11 @@ class CheckoutController extends Controller
      */
     public function pay(Request $request, Cart $cart, MollieApiClient $mollie)
     {
+        // Redirect if cart is empty
+        if ($cart->isEmpty()) {
+            return response()->redirect('/cart');
+        }
+
         $form = \App\Util\Request::from($request)
             ->only('first_name', 'last_name', 'street_name', 'house_number', 'city', 'postal_code');
 
