@@ -1,5 +1,7 @@
-# windesheim-nerdygadgets-next
-The NerdyGadgets webshop (https://nerdygadgets.dev.rickklaasboer.nl)
+<p align="center"><img src="https://www.rickklaasboer.nl/img/logo-black.svg" height="100px"/></p>
+
+# NerdyGadgetsWebshop
+The NerdyGadgets webshop made for the fictional company NerdyGadgets (https://nerdygadgets-next.dev.rickklaasboer.nl/). Originally, this was a group project. However this has been mirrored without the commits of these people for privacy concerns. 
 
 ## Installation
 Prerequisites:
