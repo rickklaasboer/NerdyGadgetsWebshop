@@ -128,7 +128,7 @@ class Kernel
         $method = $reflect->getMethod($controller[1]);
         $methodAttribute = $method->getAttributes(Authorize::class);
 
-        foreach (array_merge($controllerAttributes, $methodAttribute) as $attribute) {
+        foreach ([...$controllerAttributes, ...$methodAttribute] as $attribute) {
             /** @var Authorize $instance */
             $instance = $attribute->newInstance();
 
