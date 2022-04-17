@@ -224,7 +224,7 @@ class StockItemHolding extends Entity implements JsonSerializable
         $this->LastEditedWhen = $LastEditedWhen;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'StockItemID' => $this->StockItemID,

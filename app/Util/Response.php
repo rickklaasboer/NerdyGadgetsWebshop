@@ -37,8 +37,6 @@ class Response
      * @param string $template
      * @param array $context
      * @return SymfonyResponse
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function twig(string $template, array $context = []): SymfonyResponse
     {

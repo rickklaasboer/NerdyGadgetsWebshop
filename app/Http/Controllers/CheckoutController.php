@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Auth\Annotations\Authorize;
 use App\Entities\StockItem;
 use App\Exceptions\Http\HttpForbiddenException;
 use App\Util\Cart;
@@ -12,19 +13,10 @@ use App\Util\Validation\Validator;
 use Doctrine\ORM\EntityManager;
 use Mollie\Api\MollieApiClient;
 use Symfony\Component\HttpFoundation\Request;
-use Twig\Environment;
 
+#[Authorize(redirectTo: "/login")]
 class CheckoutController extends Controller
 {
-    public function __construct(Environment $twig, Cart $cart, EntityManager $manager, Request $request)
-    {
-        parent::__construct($twig, $cart, $manager, $request);
-
-        if (!auth()->isLoggedIn()) {
-            throw new HttpForbiddenException();
-        }
-    }
-
     /**
      * Checkout overview
      *

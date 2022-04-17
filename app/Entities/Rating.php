@@ -226,7 +226,7 @@ class Rating extends Entity implements JsonSerializable
         $this->UpdatedAt = $UpdatedAt;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'ID' => $this->ID,

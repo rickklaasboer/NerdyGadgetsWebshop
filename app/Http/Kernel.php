@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Auth\Annotations\Authorize;
 use App\Exceptions\Handler;
+use App\Exceptions\Http\HttpForbiddenException;
 use App\Exceptions\Http\HttpMethodNotAllowedException;
 use App\Exceptions\Http\HttpNotFoundException;
 use App\Http\Middleware\Authenticate;
@@ -14,6 +16,8 @@ use App\Http\Middleware\TransformRequest;
 use App\Support\Pipeline;
 use FastRoute\Dispatcher;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -99,6 +103,14 @@ class Kernel
 
             [, $controller, $parameters] = $dispatched;
 
+            $authorized = $this->handleAuthorizeAttribute($controller);
+
+            if ($authorized instanceof \Exception) {
+                throw $authorized;
+            } else if ($authorized instanceof Response) {
+                return $authorized;
+            }
+
             $response = $this->container->call($controller, $parameters);
 
             if (!$response instanceof Response) {
@@ -107,5 +119,26 @@ class Kernel
 
             return $response->prepare($request);
         };
+    }
+
+    public function handleAuthorizeAttribute($controller)
+    {
+        $reflect = new ReflectionClass($controller[0]);
+        $controllerAttributes = $reflect->getAttributes(Authorize::class);
+        $method = $reflect->getMethod($controller[1]);
+        $methodAttribute = $method->getAttributes(Authorize::class);
+
+        foreach (array_merge($controllerAttributes, $methodAttribute) as $attribute) {
+            /** @var Authorize $instance */
+            $instance = $attribute->newInstance();
+
+            if (!$instance->isAuthenticated() && !$instance->getRedirectTo()) {
+                return new HttpForbiddenException();
+            } else if ($instance->getRedirectTo() && !$instance->isAuthenticated()) {
+                return new RedirectResponse($instance->getRedirectTo());
+            }
+        }
+
+        return null;
     }
 }

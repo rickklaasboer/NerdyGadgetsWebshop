@@ -61,12 +61,12 @@ class RegisterController extends Controller
 
         $user = new User();
         $user->fill([
-            'FirstName' => $form['first_name'],
-            'LastName' => $form['last_name'],
-            'FullName' => "{$form['first_name']} {$form['last_name']}",
-            'Email' => $form['email'],
-            'Password' => password_hash($form['password'], PASSWORD_BCRYPT),
-            'CreatedAt' => Carbon::now(),
+            'first_name' => $form['first_name'],
+            'last_name' => $form['last_name'],
+            'full_name' => "{$form['first_name']} {$form['last_name']}",
+            'email' => $form['email'],
+            'password' => password_hash($form['password'], PASSWORD_BCRYPT),
+            'created_at' => Carbon::now(),
         ]);
 
         $this->manager->persist($user);

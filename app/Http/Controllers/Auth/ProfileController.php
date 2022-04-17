@@ -2,33 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Http\HttpForbiddenException;
+use App\Auth\Annotations\Authorize;
 use App\Http\Controllers\Controller;
-use App\Util\Cart;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
-use Twig\Environment;
 
+#[Authorize(redirectTo: "/login")]
 class ProfileController extends Controller
 {
-    public function __construct(Environment $twig, Cart $cart, EntityManager $manager, Request $request)
-    {
-        parent::__construct($twig, $cart, $manager, $request);
-
-        if (!auth()->isLoggedIn()) {
-            throw new HttpForbiddenException();
-        }
-    }
-
     /**
      * Profile page
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     public function show()
     {

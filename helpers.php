@@ -321,8 +321,6 @@ function fahrenheit_to_celsius($given_value)
  * @param int $status
  * @param array $headers
  * @return \Symfony\Component\HttpFoundation\Response | Response
- * @throws \Psr\Container\ContainerExceptionInterface
- * @throws \Psr\Container\NotFoundExceptionInterface
  */
 function response(string $content = null, int $status = 200, array $headers = []): \Symfony\Component\HttpFoundation\Response|Response
 {

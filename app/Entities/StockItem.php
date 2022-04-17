@@ -641,9 +641,9 @@ class StockItem extends Entity implements JsonSerializable
     /**
      * Json serialize
      *
-     * @return array
+     * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
 
         return array_merge(

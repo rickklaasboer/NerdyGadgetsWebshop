@@ -78,7 +78,7 @@ class StockItemImage extends Entity implements JsonSerializable
     }
 
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'StockItemID' => $this->StockItemID,

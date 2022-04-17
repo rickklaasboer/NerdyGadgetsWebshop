@@ -2,29 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Auth\Annotations\Authorize;
 use App\Entities\Rating;
 use App\Entities\StockItem;
 use App\Entities\User;
-use App\Exceptions\Http\HttpForbiddenException;
-use App\Util\Cart;
 use App\Util\Validation\Builder;
 use App\Util\Validation\Validator;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use Twig\Environment;
 
+#[Authorize(redirectTo: "/login")]
 class RatingController extends Controller
 {
-    public function __construct(Environment $twig, Cart $cart, EntityManager $manager, Request $request)
-    {
-        parent::__construct($twig, $cart, $manager, $request);
-
-        if (!auth()->isLoggedIn()) {
-            throw new HttpForbiddenException();
-        }
-    }
-
     /**
      * Store a new rating
      *
